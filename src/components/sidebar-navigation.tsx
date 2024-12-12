@@ -1,7 +1,9 @@
+"use client";
+
 import { cn } from '@/lib/utils'
 import { CalendarRange, MessageCircleMore, LayoutGrid, UserRound, Folder, ChevronRight, CircleAlert, LogOut } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
     Accordion,
@@ -11,6 +13,7 @@ import {
 } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
+import boardData from '@/config/board-data'
 
 const unreadMessages = 3;
 
@@ -40,10 +43,6 @@ const navigationItems = [
         href: '/members',
         icon: UserRound,
     },
-]
-
-const boards = [
-    "Create routes", "Development React App", "Sport Xi Project", "Wordpress theme"
 ]
 
 const TopNavigation = () => {
@@ -89,7 +88,10 @@ const BottomNavigation = () => {
     )
 }
 
-const SideBarNavigation = () => {
+export const SideBarNavigation = () => {
+    const [activeBoardIndex, setActiveBoardIndex] = useState(0);
+    const boards = boardData?.map(board => board?.title);
+
     return (
         <>
             <TopNavigation />
@@ -100,20 +102,20 @@ const SideBarNavigation = () => {
 
                     if (index === 1) {
                         return (
-                            <Accordion key={index} type="single" collapsible className='hover:opacity-75'>
+                            <Accordion key={index} type="single" collapsible>
                                 <AccordionItem value="boards">
-                                    <AccordionTrigger>
-                                        <div className={cn('flex items-center gap-5 text-neutral-500', isActive && "text-primary")}>
-                                            <Icon className='size-6 text-neutral-500' />
+                                    <AccordionTrigger className={cn('text-neutral-500', activeBoardIndex && "text-blue-500")}>
+                                        <div className={'flex items-center gap-5'}>
+                                            <Icon className='size-6' />
                                             {item.label}
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent>
                                         <ul className='flex flex-col gap-y-4'>
                                             {boards.map((title, index) => (
-                                                <Link key={index} href={'/'}>
-                                                    <div className={cn('flex items-center gap-4 text-neutral-400', isActive && "text-primary")}>
-                                                        <ChevronRight className='size-4 text-neutral-400' />
+                                                <Link key={index} href={`/boards/${index + 1}`} onClick={() => { setActiveBoardIndex(index + 1) }}>
+                                                    <div className={cn('flex items-center gap-4 text-neutral-400', activeBoardIndex === index + 1 && "text-blue-500 font-medium")}>
+                                                        <ChevronRight className='size-4' />
                                                         {title}
                                                     </div>
                                                 </Link>
