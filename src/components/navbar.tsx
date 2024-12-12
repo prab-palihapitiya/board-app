@@ -5,13 +5,15 @@ import { Input } from '@/components/ui/input'
 import { Bell, Plus, Search, Settings2 } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import MobileSidebar from './mobile-sidebar'
 
 const NavBar = () => {
     return (
-        <nav className='fixed z-50 top-0 w-full h-20 border-b px-6 bg-white flex items-center justify-between'>
+        <nav className='fixed z-50 top-0 w-full h-20 border-b px-6 bg-white flex items-center justify-between gap-5'>
             <div className='items-center gap-x-4 hidden md:flex'>
                 <Logo />
             </div>
+            <MobileSidebar />
             <div className='flex items-center gap-x-5 ml-0'>
                 <Button className='bg-blue-600 rounded-lg hidden md:flex px-5 h-12 text-xs font-semibold'>
                     Create new board<Plus className='h-4 w-4' />
