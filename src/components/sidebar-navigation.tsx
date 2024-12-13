@@ -71,7 +71,7 @@ const TopNavigation = () => {
 const BottomNavigation = () => {
     const isActive = false;
     return (
-        <ul className='flex flex-col mt-4'>
+        <ul className='flex flex-col mt-auto'>
             <Link href={'/support'} className='my-5 mx-3 hover:opacity-75'>
                 <div className={cn('flex items-center gap-5 text-neutral-500 font-medium', isActive && "text-primary")}>
                     <CircleAlert className='size-6 text-neutral-500' />

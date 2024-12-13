@@ -10,7 +10,7 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                 <aside className="w-72 hidden md:block">
                     <SideBar />
                 </aside>
-                <div className="text-black h-full md:left-72 flex-grow overflow-y-auto">
+                <div className="text-black md:left-72 flex-grow fixed min-h-screen overflow-auto">
                     {children}
                 </div>
             </main>

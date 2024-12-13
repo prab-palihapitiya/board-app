@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea
 import { Task, Status } from "@/config/types";
 import ColumnHeader from "./column-header";
 import TaskElement from "./task-element";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const columns: Status[] = [
     Status.ToDo,
@@ -126,16 +127,16 @@ const BoardContent = ({ data, onChange }: BoardContentProps) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex overflow-x-auto border-b">
+            <div className="flex border-b bg-muted w-full h-max">
                 {columns.map((column) => (
-                    <div key={column} className="flex-1 bg-muted min-w-[100px] border-r h-screen">
+                    <div key={column} className="flex-1 min-w-[100px] border-r h-screen">
                         <ColumnHeader column={column} />
                         <Droppable droppableId={column}>
                             {(provided) => (
                                 <div
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
-                                    className="min-h-[200px] p-4"
+                                    className="min-h-[200px] p-2 lg:p-4"
                                 >
                                     {tasks[column].map((task, index) => (
                                         <Draggable
@@ -148,7 +149,7 @@ const BoardContent = ({ data, onChange }: BoardContentProps) => {
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
-                                                    className="bg-white p:1 md:p-2.5 rounded-xl mb-4 border"
+                                                    className="bg-white p:1 py-2 md:p-2.5 rounded-xl mb-2 lg:mb-4 border"
                                                 >
                                                     <TaskElement task={task} />
                                                 </div>
