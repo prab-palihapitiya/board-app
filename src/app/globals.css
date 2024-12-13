@@ -22,7 +22,9 @@ body,
   display: flex;
   flex-direction: column;
 }
-.content-height {
+
+.drag-content {
+  min-height: calc(100vh - 295px);
 }
 
 @layer base {

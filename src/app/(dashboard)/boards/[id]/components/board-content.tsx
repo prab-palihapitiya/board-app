@@ -127,9 +127,9 @@ const BoardContent = ({ data, onChange }: BoardContentProps) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex border-b bg-muted w-full h-max">
+            <div className="flex border-b bg-muted w-full">
                 {columns.map((column) => (
-                    <div key={column} className="flex-1 min-w-[100px] border-r h-screen">
+                    <div key={column} className="flex-1 min-w-[100px] border-r drag-content">
                         <ColumnHeader column={column} />
                         <Droppable droppableId={column}>
                             {(provided) => (

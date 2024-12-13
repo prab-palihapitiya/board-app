@@ -23,7 +23,7 @@ const TaskElement = ({ task }: { task: Task }) => {
             </div>
             {task.imageSrc && <Image src={task.imageSrc} alt={task.title} width={400} height={300} />}
             <Separator className={`mt-${task.imageSrc ? 1 : 4}`} />
-            <div className="2xl:flex items-center gap-5 px-2 md:px-0">
+            <div className="xl:flex items-center gap-5 px-2 md:px-0">
                 {task.links > 0 && <div className="flex text-neutral-500 text-xs font-medium items-center gap-1 cursor-pointer"><Link size={10} strokeWidth={3} />{task.links}</div>}
                 {task.messages > 0 && <div className="flex text-neutral-500 text-xs font-medium items-center gap-1 cursor-pointer"><MessageCircleMore size={18} />{task.messages}</div>}
                 {task.due && <div className="flex text-xs text-neutral-500 font-medium items-center gap-1"><CalendarRange size={15} />Due: {formatDate(task.due)}</div>}

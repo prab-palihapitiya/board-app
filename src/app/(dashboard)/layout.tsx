@@ -4,13 +4,13 @@ import SideBar from "@/components/sidebar"
 
 export const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className='h-screen bg-white flex flex-col'>
+        <div className='h-screen flex flex-col'>
             <NavBar />
-            <main className='mt-20 flex-grow flex'>
+            <main className='flex-grow flex mt-20 overflow-y-auto'>
                 <aside className="w-72 hidden md:block">
                     <SideBar />
                 </aside>
-                <div className="text-black md:left-72 flex-grow fixed min-h-screen overflow-auto">
+                <div className="text-black md:left-72 flex-1">
                     {children}
                 </div>
             </main>
