@@ -1,3 +1,5 @@
+"use client";
+
 import { Logo } from '@/components/logo'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -6,8 +8,15 @@ import { Bell, Plus, Search, Settings2 } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import MobileSidebar from './mobile-sidebar'
+import { useSearchStore } from '@/lib/state/store';
 
 const NavBar = () => {
+    const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    };
+
     return (
         <nav className='fixed z-50 top-0 w-full h-20 border-b px-6 bg-white flex items-center justify-between gap-5'>
             <div className='items-center gap-x-4 hidden md:flex'>
@@ -25,7 +34,11 @@ const NavBar = () => {
 
                 <div className="bg-gray-100 flex items-center rounded-lg px-3.5 w-full md:w-80 ">
                     <Search className="h-4 w-4 text-gray-500" />
-                    <Input placeholder='Search tasks ...' className='h-12 border-0 bg-gray-100 placeholder:text-xs placeholder:text-gray-400' />
+                    <Input
+                        placeholder='Search tasks ...'
+                        className='h-12 border-0 bg-gray-100 placeholder:text-xs placeholder:text-gray-400'
+                        onChange={handleSearch}
+                    />
                 </div>
                 <div className='flex gap-x-4 items-center'>
                     <Link href={'/'}>
