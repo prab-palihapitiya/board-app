@@ -8,8 +8,6 @@ export enum Status {
 export enum TaskType {
     Research = "Research",
     Design = "Design",
-    Development = "Development",
-    Testing = "Testing",
     Feedback = "Feedback",
     Interface = "interface",
     UXResearch = "UX Research",
@@ -37,12 +35,12 @@ export interface Task {
     priority: PriorityLevel;
     due: string;
     links: number;
-    messages?: number;
-    reports?: number;
-    groupCall?: boolean;
-    stream?: boolean;
-    imageSrc?: string;
-    assignees?: Assignee[];
+    messages: number;
+    reports: number;
+    groupCall: boolean;
+    stream: boolean;
+    imageSrc: string;
+    assignees: Assignee[];
 }
 
 export interface Board {

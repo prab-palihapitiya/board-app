@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { format, isToday, isYesterday, subDays } from "date-fns";
+import { format, isToday, isYesterday, isTomorrow } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -14,6 +14,8 @@ export function formatDate(dateString: string): string {
       return 'Today';
     } else if (isYesterday(date)) {
       return 'Yesterday';
+    } else if (isTomorrow(date)) {
+      return 'Tomorrow';
     } else {
       return format(date, 'dd MMMM, yyyy'); // Added year for clarity
     }

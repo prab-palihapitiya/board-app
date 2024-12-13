@@ -1,7 +1,8 @@
 import { Badge } from "@/components/ui/badge";
+import { Status } from "@/config/types";
 import { Ellipsis, Plus } from "lucide-react";
 
-const ColumnHeader = ({ column }) => {
+const ColumnHeader = ({ column }: { column: Status }) => {
     return (
         <div className="flex items-center bg-white p-4 border-b justify-between">
             <Badge variant={column} className="rounded-3xl md:py-1 md:px-5 md:text-sm font-medium shrink-0">{column}</Badge>

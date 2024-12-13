@@ -1,68 +1,48 @@
 'use client';
 
-import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from 'react';
 import { useParams } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { PencilIcon } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import boardData from "@/config/board-data";
-import { Assignee, Board, Status } from "@/config/types";
-import { formatDate } from "@/lib/utils";
+import { Board, Status, Task } from "@/config/types";
 import BoardContent from "./components/board-content";
+import BoardHeader from "./components/board-header";
 
 const BoardPage = () => {
     const { id } = useParams<{ id: string }>();
-    const board: Board = boardData.find((board) => board?.id === Number(id));
-    const tasks = board?.tasks;
+    const [board, setBoard] = useState<Board>();
+    const [tasks, setTasks] = useState<Task[]>([]);
 
-    const BoardHeader = () => {
-        const title: string = board?.title;
-        const status: Status = board?.status;
-        const description: string = board?.description;
-        const lastUpdated: string = board?.lastModified;
-
-        const AssignedGroup = () => {
-            const assignees: Assignee[] = board.assignees;
-            return (
-                <div className="flex -space-x-2.5 overflow-hidden">
-                    {assignees?.map((assignee, index) => (
-                        (index < 3) && <Avatar className='h-6 w-6' key={assignee.id}>
-                            <AvatarImage src={assignee.avatar} alt={assignee.name} />
-                            <AvatarFallback>{assignee.name}</AvatarFallback>
-                        </Avatar>
-                    ))}
-                    {(assignees && assignees.length > 3) &&
-                        (<Avatar className='h-6 w-6'>
-                            <AvatarFallback className="text-[10px] bg-neutral-200 font-semibold">+{assignees.length - 3}</AvatarFallback>
-                        </Avatar>)}
-                </div>
-            )
+    useEffect(() => {
+        const storedBoard = localStorage.getItem(`board-${id}`);
+        if (storedBoard) {
+            setBoard(JSON.parse(storedBoard));
+            setTasks(JSON.parse(storedBoard).tasks);
+        } else {
+            const foundBoard = boardData.find((board) => board?.id === Number(id));
+            setBoard(foundBoard as Board);
+            setTasks(foundBoard?.tasks as Task[]);
         }
+    }, [id]);
 
-        return (
-            <div className="flex flex-col gap-y-4 h-auto border-b p-5">
-                <div className="flex items-center gap-5">
-                    <h1 className="text-2xl font-extrabold">{title}</h1>
-                    <Badge variant="destructive" className="rounded-md bg-amber-500 text-black font-light">{status}</Badge>
-                </div>
-                <p className="font-normal text-neutral-400">{description}</p>
-                <div className="flex items-center gap-5">
-                    <span className="font-normal text-neutral-400">assigned</span>
-                    <AssignedGroup />
-                    <Button variant="outline" size="sm" className="h-8 rounded-3xl text-neutral-400 text-xs">Manage <PencilIcon className="w-4 h-4 text-neutral-400" /></Button>
-                </div>
-                <Separator />
-                <span className="text-sm font-light text-neutral-400">Last updated on: {formatDate(lastUpdated)}</span>
-            </div>
-        );
-    }
-
+    const handleBoardUpdate = (updates: { id: number, status: Status, position: number }[]) => {
+        const updatedBoard = { ...board, tasks: [...tasks] };
+        updates.forEach(update => {
+            const taskIndex = updatedBoard.tasks.findIndex(task => task.id === update.id);
+            updatedBoard.tasks[taskIndex] = { ...updatedBoard.tasks[taskIndex], ...update };
+        });
+        setBoard(updatedBoard as Board);
+        setTasks(updatedBoard.tasks);
+        localStorage.setItem(`board-${id}`, JSON.stringify(updatedBoard));
+    };
 
     return (
         <div>
-            <BoardHeader />
-            <BoardContent data={tasks} />
+            {board && tasks && (
+                <>
+                    <BoardHeader data={board} />
+                    <BoardContent data={tasks} onChange={handleBoardUpdate} />
+                </>
+            )}
         </div>
     );
 }
